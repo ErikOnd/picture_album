@@ -1,9 +1,14 @@
+const options = {
+    method: 'GET',
+    headers: {
+        Authorization:'563492ad6f917000010000010a8b00a7a2c349ee9a74d34e45d83eb1', 
+    }
+};
 const imageRow = document.getElementById('imageRow');
 const loadImg = document.getElementById('loadImg');
 const loadImg2 = document.getElementById('loadImg2');
 const alertContainer = document.getElementsByClassName('alertContainer')[0];
 const carouselContainer = document.getElementsByClassName('carouselContainer')[0];
-
 
 loadImg.addEventListener('click', function(){
     loadRealDate('animals')
@@ -22,7 +27,7 @@ setTimeout(removeAlert, 5000);
 })
 
 
-function searchImage(){
+const  searchImage = () =>{
     let userInput = document.getElementById('user-input').value;
     loadRealDate(userInput)
     alertContainer.innerHTML += `     <div class="alert alert-success" role="alert">
@@ -31,20 +36,20 @@ function searchImage(){
 setTimeout(removeAlert, 5000);
 }
 
-function imgAlert(){
+const alertImageHidden = (id) =>{
+    alertContainer.innerHTML += `     <div class="alert alert-warning" role="alert">
+    The Image with the ID:${id} is hidden now.
+    </div>`
+    setTimeout(removeAlert, 5000);
+    }
     
-}
+    const removeAlert = () =>{
+        alertContainer.innerHTML = '';
+    }
 
 
-
-
-function loadRealDate(query){
-    fetch(`https://api.pexels.com/v1/search?query=${query}`, {
-        method: 'GET',
-        headers: {
-            Authorization:'563492ad6f917000010000010a8b00a7a2c349ee9a74d34e45d83eb1', 
-        }
-    })
+const loadRealDate = query =>{
+    fetch(`https://api.pexels.com/v1/search?query=${query}`, options)
     .then((response) =>  response.json())
     .then((data) => {
         console.log(data)
@@ -63,7 +68,6 @@ function loadRealDate(query){
                       class="btn btn-sm btn-outline-secondary"
                       data-toggle="modal" 
                       data-target="#exampleModalLong${i}"
-                      onclick="imgAlert(${data.photos[i].src.original})"
                     >
                       View
                     </button>
@@ -76,8 +80,6 @@ function loadRealDate(query){
               </div>
             </div>
           </div>
-          
-          
           <div class="modal fade bd-example-modal-xl" id="exampleModalLong${i}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-xl">" role="document">
           <div class="modal-content">
@@ -96,69 +98,14 @@ function loadRealDate(query){
           </div>
         </div>
       </div>
-          
-          
           `
-          
         }
-    
     })
         .catch((err => console.log(err)))
 }
 
-window.onload = function loadDummyData(){
-    loadForestCarusel()
-for (let i = 0; i < 9; i++) {
-    imageRow.innerHTML += `   <div class="col-md-4">
-    <div class="card mb-4 shadow-sm">
-      <svg
-        class="bd-placeholder-img card-img-top"
-        width="100%"
-        height="225"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid slice"
-        focusable="false"
-        role="img"
-        aria-label="Placeholder: Thumbnail"
-      >
-        <title>Placeholder</title>
-        <rect width="100%" height="100%" fill="#55595c" />
-        <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-          Thumbnail
-        </text>
-      </svg>
-      <div class="card-body">
-        <p class="card-text">
-          This is a wider card with supporting text below as a natural
-          lead-in to additional content. This content is a little bit
-          longer.
-        </p>
-        <div
-          class="d-flex justify-content-between align-items-center"
-        >
-          <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-secondary"
-            >
-              View
-            </button>
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-secondary"
-            >
-              Edit
-            </button>
-          </div>
-          <small class="text-muted">9 mins</small>
-        </div>
-      </div>
-    </div>
-  </div>`
-}
-}
 
-window.onload = function loadDummyData(){
+window.onload =  loadDummyData = () =>{
 for (let i = 0; i < 9; i++) {
     imageRow.innerHTML += `   <div class="col-md-4">
     <div class="card mb-4 shadow-sm">
@@ -207,12 +154,7 @@ for (let i = 0; i < 9; i++) {
     </div>
   </div>`
 }
-fetch(`https://api.pexels.com/v1/search?query=forest`, {
-        method: 'GET',
-        headers: {
-            Authorization:'563492ad6f917000010000010a8b00a7a2c349ee9a74d34e45d83eb1', 
-        }
-    })
+fetch(`https://api.pexels.com/v1/search?query=forest`, options)
     .then((response) =>  response.json())
     .then((data) => {
         carouselContainer.innerHTML = 
@@ -241,31 +183,10 @@ fetch(`https://api.pexels.com/v1/search?query=forest`, {
         `
     })
     .catch((err => console.log(err)))
-
 }
 
 
-    
 
-
-
-
-
-
-
-
-
-
-function alertImageHidden(id){
-alertContainer.innerHTML += `     <div class="alert alert-warning" role="alert">
-The Image with the ID:${id} is hidden now.
-</div>`
-setTimeout(removeAlert, 5000);
-}
-
-function removeAlert(){
-    alertContainer.innerHTML = '';
-}
 
 
 
